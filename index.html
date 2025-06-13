@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugaruquotes - Make Memories Speak</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Color Palette */
+        :root {
+            --color-background-light: #F8F0E4; /* Creamy beige from logo background */
+            --color-text-dark: #5A4F46; /* Dark brown from logo outline/text */
+            --color-accent-orange: #E07849; /* Orange/terracotta from logo frame */
+            --color-accent-teal: #5B9995; /* Teal from logo hand */
+            --color-accent-gold: #D9A349; /* Gold/mustard from logo hand */
+            --color-white: #FFFFFF;
+            --color-gray-100: #F3F4F6;
+            --color-gray-200: #E5E7EB;
+            --color-gray-300: #D1D5DB;
+            --color-gray-600: #4B5563;
+            --color-gray-700: #374151;
+            --color-black: #000000;
+            --color-green-500: #22C55E;
+            --color-purple-500: #9333EA;
+            --color-pink-500: #EC4899;
+            --color-yellow-500: #F59E0B;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background-light);
+            color: var(--color-text-dark);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--color-text-dark);
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        /* Utility Classes (mimicking Tailwind where necessary) */
+        .container {
+            max-width: 1200px; /* Equivalent to mx-auto px-6 max-w-6xl */
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .container {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container {
+                padding-left: 16rem; /* Adjust as needed for specific lg:px-16 */
+                padding-right: 16rem;
+            }
+        }
+
+
+        .section-padding {
+            padding: 5rem 1.5rem; /* Consistent padding for sections */
+        }
+        @media (min-width: 768px) {
+            .section-padding {
+                padding: 8rem 4rem;
+            }
+        }
+
+        .cta-button {
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 2rem; /* px-8 py-3 */
+            border-radius: 9999px; /* rounded-full */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* font-semibold */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+            text-decoration: none;
+            color: var(--color-white); /* Default for CTA, overridden by specific buttons */
+            margin-left: auto; /* mx-auto */
+            margin-right: auto; /* mx-auto */
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+        }
+        .cta-button span:first-child {
+            margin-right: 0.5rem; /* space-x-2 */
+        }
+
+        .process-step {
+            background-color: var(--color-white);
+            padding: 1.5rem; /* p-6 */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow-md */
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center; /* text-center */
+        }
+        .process-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* hover:shadow-xl */
+        }
+        .process-step h3 {
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .process-step p {
+            font-size: 0.875rem; /* text-sm */
+            color: var(--color-gray-600);
+        }
+
+        /* Specific Component Styles */
+
+        /* Header */
+        .header {
+            background-color: rgba(255, 255, 255, 0.8); /* bg-white/80 */
+            backdrop-filter: blur(8px); /* backdrop-blur-md */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+        }
+        .header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem; /* py-4 */
+            padding-bottom: 1rem; /* py-4 */
+        }
+        @media (min-width: 768px) {
+            .header nav {
+                padding-top: 1.25rem; /* md:py-5 */
+                padding-bottom: 1.25rem; /* md:py-5 */
+            }
+        }
+        .header nav a {
+            text-decoration: none;
+        }
+        .header .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* space-x-2 */
+        }
+        .header .logo-img {
+            height: 2.5rem; /* h-10 */
+            width: 2.5rem; /* w-10 */
+            border-radius: 9999px; /* rounded-full */
+            object-fit: cover;
+        }
+        @media (min-width: 768px) {
+            .header .logo-img {
+                height: 3rem; /* md:h-12 */
+                width: 3rem; /* md:w-12 */
+            }
+        }
+        .header .logo-text {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            font-family: 'Playfair Display', serif;
+            color: var(--color-text-dark);
+        }
+
+        .header .nav-links-desktop {
+            display: none; /* hidden */
+            gap: 2rem; /* space-x-8 */
+        }
+        @media (min-width: 768px) {
+            .header .nav-links-desktop {
+                display: flex; /* md:flex */
+            }
+        }
+        .header .nav-links-desktop a {
+            color: var(--color-gray-700);
+            font-weight: 500; /* font-medium */
+            transition-property: color;
+            transition-duration: 300ms;
+            text-decoration: none;
+        }
+        .header .nav-links-desktop a:hover {
+            color: var(--color-accent-orange);
+        }
+        .header .nav-links-desktop .cta-button {
+            color: var(--color-white);
+            background-color: var(--color-accent-orange);
+            font-size: 0.875rem; /* text-sm */
+            padding: 0.5rem 1.5rem; /* px-6 py-2 */
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            font-size: 1.5rem; /* text-2xl */
+            color: var(--color-text-dark);
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: block; /* md:hidden */
+        }
+        @media (min-width: 768px) {
+            .mobile-menu-toggle {
+                display: none; /* md:hidden */
+            }
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* bg-black/50 */
+            z-index: 40;
+            display: none; /* hidden by default, controlled by JS */
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh; /* h-full */
+            width: 16rem; /* w-64 */
+            background-color: var(--color-white);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            z-index: 50;
+            transform: translateX(100%); /* translate-x-full */
+            transition: transform 0.3s ease-in-out;
+            display: none; /* md:hidden */
+        }
+        .mobile-menu.active { /* Class added by JS */
+            transform: translateX(0);
+        }
+        .mobile-menu .close-button {
+            font-size: 1.875rem; /* text-3xl */
+            color: var(--color-gray-700);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 1rem; /* p-4 */
+        }
+        .mobile-menu nav {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem; /* p-4 */
+            gap: 1rem; /* space-y-4 */
+        }
+        .mobile-menu nav a {
+            display: block;
+            padding: 0.5rem 1rem; /* py-2 px-4 */
+            color: var(--color-gray-700);
+            text-decoration: none;
+            border-radius: 0.375rem; /* rounded-md */
+        }
+        .mobile-menu nav a:hover {
+            background-color: var(--color-gray-100);
+        }
+        .mobile-menu nav .cta-button-mobile {
+            background-color: var(--color-accent-orange);
+            color: var(--color-white);
+            text-align: center;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        .hero-section .overlay {
+            background-color: rgba(0, 0, 0, 0.4); /* bg-black/40 */
+            position: absolute;
+            inset: 0;
+        }
+        .hero-section .content {
+            text-align: center;
+            color: var(--color-white);
+            position: relative;
+            z-index: 10;
+            padding: 1rem; /* p-4 */
+            max-width: 96rem; /* max-w-4xl (approximately) */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-section h1 {
+            font-size: 3rem; /* text-5xl */
+            font-weight: 700; /* font-bold */
+            margin-bottom: 1rem; /* mb-4 */
+            line-height: 1.25; /* leading-tight */
+            color: var(--color-white); /* Override for white text on dark overlay */
+        }
+        @media (min-width: 768px) {
+            .hero-section h1 {
+                font-size: 4.5rem; /* md:text-7xl */
+            }
+        }
+        @media (min-width: 1024px) {
+            .hero-section h1 {
+                font-size: 6rem; /* lg:text-8xl */
+            }
+        }
+        .hero-section .tagline {
+            font-size: 1.25rem; /* text-xl */
+            max-width: 42rem; /* max-w-2xl */
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2rem; /* mb-8 */
+            font-family: 'Playfair Display', serif;
+        }
+        @media (min-width: 768px) {
+            .hero-section .tagline {
+                font-size: 1.875rem; /* md:text-3xl */
+            }
+        }
+        .hero-section .description {
+            font-size: 1rem; /* text-base */
+            margin-bottom: 2.5rem; /* mb-10 */
+        }
+        @media (min-width: 768px) {
+            .hero-section .description {
+                font-size: 1.125rem; /* md:text-lg */
+            }
+        }
+        .hero-section .cta-button-hero {
+            background-color: var(--color-white);
+            color: var(--color-text-dark);
+            padding: 0.75rem 2rem; /* px-8 py-3 */
+            border-radius: 9999px; /* rounded-full */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* font-semibold */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+        }
+
+        /* About Us & Other Text Sections */
+        .text-section h2 {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700;
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        @media (min-width: 768px) {
+            .text-section h2 {
+                font-size: 3rem; /* md:text-5xl */
+            }
+        }
+        .text-section p {
+            font-size: 1.125rem; /* text-lg */
+            color: var(--color-gray-600);
+            line-height: 1.625; /* leading-relaxed */
+            margin-bottom: 2rem; /* mb-8 */
+        }
+        .text-section p:last-of-type {
+            margin-bottom: 0; /* Remove margin from last paragraph if it's the last element */
+        }
+
+/* How It Works Section */
+.how-it-works-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.how-it-works-grid > div {
+    background-color: var(--color-white);
+    padding: 1.5rem;          /* Slightly reduced padding */
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+
+    width: 100%;             /* Full width on mobile */
+    max-width: 320px;        /* Adjusted card size for better fit */
+    flex: 1 1 220px;         /* Allows wrapping on smaller screens */
+}
+
+@media (min-width: 1024px) {
+    .how-it-works-grid {
+        flex-wrap: nowrap;        /* ❗ Same row on large screens */
+        justify-content: center;
+    }
+
+    .how-it-works-grid > div {
+        flex: 0 0 180px;         /* ❗ FINAL → Smaller, fits 5 in one row on laptop/desktop */
+        max-width: 180px;
+    }
+}
+
+.how-it-works-grid > div:hover {
+    transform: scale(1.02);
+}
+
+.how-it-works-grid .step-number {
+    font-size: 2rem;            /* Slightly reduced font for balance */
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.how-it-works-grid .step-number.orange {
+    color: var(--color-accent-orange);
+}
+
+.how-it-works-grid .step-number.teal {
+    color: var(--color-accent-teal);
+}
+
+
+
+
+
+
+        /* Portfolio Section */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* grid-cols-1 */
+            gap: 2rem; /* gap-8 */
+            margin-top: 3rem; /* mb-12 for previous p, adjusted to be general spacing */
+        }
+        @media (min-width: 640px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr); /* sm:grid-cols-2 */
+            }
+        }
+        @media (min-width: 1024px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(3, 1fr); /* lg:grid-cols-3 */
+            }
+        }
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+        }
+        .portfolio-item img {
+            width: 100%; /* w-full */
+            height: 18rem; /* h-72 */
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .portfolio-item:hover img {
+            transform: scale(1.1); /* group-hover:scale-110 */
+        }
+        .portfolio-item .overlay-content {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.4); /* bg-black/40 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .portfolio-item:hover .overlay-content {
+            opacity: 1;
+        }
+        .portfolio-item .overlay-content span {
+            color: var(--color-white);
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 700; /* font-bold */
+        }
+        .portfolio-cta {
+            margin-top: 3rem; /* mt-12 */
+        }
+
+
+/* Pricing / Collections Section */
+.pricing-cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem; /* gap between cards */
+    margin-top: 3rem; /* spacing from previous content */
+}
+
+.pricing-card {
+    background-color: var(--color-white);
+    padding: 2rem; /* p-8 */
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    border-top-width: 4px; /* border-t-4 */
+    border-style: solid;
+    transition: transform 0.3s ease-in-out;
+    text-align: left;
+    width: 100%; /* Full width by default for small screens */
+    max-width: 350px; /* Makes cards look like proper boxes */
+    flex: 1 1 300px; /* Allows wrapping on smaller screens, stays fixed on larger */
+}
+
+@media (min-width: 1024px) {
+    .pricing-cards-wrapper {
+        flex-wrap: nowrap; /* ⬅️ No wrapping on larger screens (>=1024px) */
+        justify-content: center; /* Center the entire row */
+    }
+
+    .pricing-card {
+        flex: 0 0 320px; /* ⬅️ Fixed width for all cards on large screens */
+        max-width: 320px;
+    }
+}
+
+.pricing-card:hover {
+    transform: scale(1.02);
+}
+
+.pricing-card.classic {
+    border-color: var(--color-accent-orange);
+}
+
+.pricing-card.premium {
+    border-color: var(--color-accent-teal);
+}
+
+.pricing-card h3 {
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 700;
+    margin-bottom: 1rem; /* mb-4 */
+}
+
+.pricing-card p {
+    color: var(--color-gray-600);
+    margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.pricing-card ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem; /* mb-8 */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* space-y-3 */
+    color: var(--color-gray-700);
+}
+
+.pricing-card ul li {
+    display: flex;
+    align-items: center;
+}
+
+.pricing-card ul li span:first-child {
+    margin-right: 0.5rem; /* mr-2 */
+}
+
+.pricing-card .price {
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 700;
+    text-align: center;
+}
+
+
+
+
+        /* Contact Section */
+        .contact-section {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            padding: 5rem 1.5rem;
+        }
+        .contact-section .overlay {
+            background-color: rgba(0, 0, 0, 0.6); /* bg-black/60 */
+            position: absolute;
+            inset: 0;
+        }
+        .contact-section .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: var(--color-white);
+            max-width: 96rem; /* max-w-4xl (approximately) */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .contact-section h2 {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700;
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        @media (min-width: 768px) {
+            .contact-section h2 {
+                font-size: 3rem; /* md:text-5xl */
+            }
+        }
+        .contact-section p {
+            font-size: 1.125rem; /* text-lg */
+            max-width: 42rem; /* max-w-2xl */
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2.5rem; /* mb-10 */
+        }
+        .contact-buttons {
+            display: flex;
+            flex-direction: column; /* flex-col */
+            justify-content: center;
+            gap: 1rem; /* space-y-4 */
+        }
+        @media (min-width: 640px) {
+            .contact-buttons {
+                flex-direction: row; /* sm:flex-row */
+                gap: 1.5rem; /* sm:space-x-6 */
+            }
+        }
+        .contact-buttons .whatsapp-button {
+            background-color: var(--color-green-500);
+            color: var(--color-white);
+        }
+        .contact-buttons .instagram-button {
+            background-image: var(--bg-gradient-insta);
+            color: var(--color-white);
+        }
+        .contact-section .note {
+            font-size: 0.875rem; /* text-sm */
+            margin-top: 2rem; /* mt-8 */
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: var(--color-text-dark);
+            color: var(--color-white);
+            padding-top: 2rem; /* py-8 */
+            padding-bottom: 2rem; /* py-8 */
+            text-align: center;
+        }
+        .footer p {
+            font-size: 0.875rem; /* text-sm */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="container">
+            <a href="#" class="logo-link">
+                <!-- IMPORTANT: Replace 'https://placehold.co/60x60/F8F0E4/5A4F46?text=LOGO' with the actual web-accessible URL of your logo image -->
+                <!-- Example: <img src="https://yourwebsite.com/images/sugaruquotes-logo.png" ...> -->
+                <img src="https://placehold.co/60x60/F8F0E4/5A4F46?text=LOGO" onerror="this.onerror=null; this.src='https://placehold.co/60x60/F8F0E4/5A4F46?text=LOGO';" alt="Sugaruquotes Logo" class="logo-img">
+                <span class="logo-text">Sugaruquotes</span>
+            </a>
+            <div class="nav-links-desktop">
+                <a href="#about">About</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#portfolio">Our Work</a>
+                <a href="#contact" class="cta-button">Get in Touch</a>
+            </div>
+             <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="mobile-menu-toggle">☰</button>
+        </nav>
+        <!-- Mobile Menu Overlay - hidden by default, shown by JS when menu is open -->
+        <div id="mobile-menu-overlay" class="mobile-menu-overlay hidden"></div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu">
+            <div style="display: flex; justify-content: flex-end; padding: 1rem;">
+                <button id="close-mobile-menu" class="close-button">&times;</button>
+            </div>
+            <nav>
+                <a href="#about">About</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#portfolio">Our Work</a>
+                <a href="#contact" class="cta-button cta-button-mobile">Get in Touch</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section" 
+        style="background-image: url('https://images.unsplash.com/photo-1517743953443-4e76106e23?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1 >Sugaruquotes</h1>
+            <p class="tagline">Make Memories Speak</p>
+            <p class="description">Transforming your cherished moments into timeless poetic art, hand-crafted and elegantly framed. Perfect for unique gifts that truly resonate.</p>
+            <a href="#contact" class="cta-button cta-button-hero">Start Your Poem Journey</a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="section-padding text-section" style="background-color: var(--color-white);">
+        <div class="container" style="text-align: center; max-width: 64rem;">
+            <h2>About Sugaruquotes</h2>
+            <p>
+                Hello! I'm the poet and heart behind Sugaruquotes. My lifelong passion for words and the profound impact of personalized expressions led me to create this venture. I believe every memory, every relationship, and every emotion deserves to be celebrated in a way that truly resonates.
+            </p>
+            <p>
+                Sugaruquotes was born from the desire to transform fleeting moments into lasting treasures. I pour my heart into every line, ensuring each poem is not just a collection of words, but a genuine reflection of your unique story, crafted with care right here in Pondicherry.
+            </p>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section-padding text-section" style="background-color: var(--color-gray-100);">
+        <div class="container" style="text-align: center; max-width: 80rem;">
+            <h2>How It Works</h2>
+            <p style="margin-bottom: 3rem;">
+                Your custom poem journey is simple and collaborative. Follow these steps to bring your memories to life:
+            </p>
+            <div class="how-it-works-grid">
+                <div class="process-step">
+                    <div class="step-number orange">1</div>
+                    <h3>Share Your Story</h3>
+                    <p>Tell us the occasion, recipient, and specific memories/emotions via WhatsApp or Instagram.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number teal">2</div>
+                    <h3>Get a Quote</h3>
+                    <p>We provide a transparent quote based on your brief. A 50% advance secures your order.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number orange">3</div>
+                    <h3>Crafting & Review</h3>
+                    <p>I'll draft your unique poem and send it for your review and up to 2 revisions.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number teal">4</div>
+                    <h3>Framing & Finishing</h3>
+                    <p>Once approved, your poem is beautifully printed and meticulously framed in your chosen style.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number orange">5</div>
+                    <h3>Delivery & Cherish</h3>
+                    <p>After final payment, your framed poem is ready for pickup or local delivery in Pondicherry.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Work / Portfolio Section -->
+    <section id="portfolio" class="section-padding text-section" style="background-color: var(--color-white);">
+        <div class="container" style="text-align: center; max-width: 96rem;">
+            <h2>Our Poetic Creations</h2>
+            <p style="margin-bottom: 3rem;">
+                Explore the artistry and emotion woven into every Sugaruquotes creation. Each piece below is a testament to unique stories and cherished connections we've had the honor of framing.
+            </p>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1593102263596-121568469559?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Golden Anniversary Poem Frame">
+                    <div class="overlay-content">
+                        <span>Golden Anniversary</span>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Farewell Gift Poem Frame">
+                    <div class="overlay-content">
+                        <span>Farewell Gift</span>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1596701229699-a67399a99e3a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Mother's Birthday Poem Frame">
+                    <div class="overlay-content">
+                        <span>Mother's Birthday</span>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1526483665324-818313a29b46?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="New Baby Arrival Poem Frame">
+                    <div class="overlay-content">
+                        <span>New Baby Arrival</span>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1515934751635-481eff6241b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Wedding Vows Renewal Frame">
+                    <div class="overlay-content">
+                        <span>Wedding Vows Renewal</span>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Graduation Gift Poem Frame">
+                    <div class="overlay-content">
+                        <span>Graduation Gift</span>
+                    </div>
+                </div>
+            </div>
+             <a href="#contact" class="cta-button portfolio-cta" style="background-color: var(--color-accent-orange); color: var(--color-white);">Order Your Custom Poem</a>
+        </div>
+    </section>
+
+    <!-- Pricing / Collections Section -->
+    <section id="pricing" class="section-padding text-section" style="background-color: var(--color-gray-100);">
+        <div class="container" style="text-align: center; max-width: 80rem;">
+            <h2>Our Collections</h2>
+            <p style="margin-bottom: 3rem;">
+                We offer beautifully curated packages to suit every occasion and budget. Each collection is designed to provide a complete, heartfelt gift, with options for that extra personal touch.
+            </p>
+            <div class="pricing-cards-wrapper">
+                <!-- Classic Collection Card -->
+                <div class="pricing-card classic">
+                    <h3>Classic Collection</h3>
+                    <p>Perfect for heartfelt messages and special moments that deserve a timeless keepsake.</p>
+                    <ul>
+                        <li><span style="color: var(--color-accent-orange); margin-right: 0.5rem;">✓</span> Custom poem (up to 16 lines)</li>
+                        <li><span style="color: var(--color-accent-orange); margin-right: 0.5rem;">✓</span> Standard elegant frame</li>
+                        <li><span style="color: var(--color-accent-orange); margin-right: 0.5rem;">✓</span> Up to 2 revisions</li>
+                    </ul>
+                    <p class="price">Starting from ₹1,499</p>
+                </div>
+                <!-- Premium Collection Card -->
+                <div class="pricing-card premium">
+                    <h3>Premium Collection</h3>
+                    <p>For grand gestures and detailed narratives that tell a deeper story.</p>
+                    <ul>
+                        <li><span style="color: var(--color-accent-teal); margin-right: 0.5rem;">✓</span> Custom poem (up to 30 lines)</li>
+                        <li><span style="color: var(--color-accent-teal); margin-right: 0.5rem;">✓</span> Premium, larger frame choice</li>
+                        <li><span style="color: var(--color-accent-teal); margin-right: 0.5rem;">✓</span> Up to 3 revisions</li>
+                        <li><span style="color: var(--color-teal); margin-right: 0.5rem;">✓</span> Includes premium gift wrapping</li>
+                    </ul>
+                    <p class="price">Starting from ₹2,999</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding contact-section" 
+        style="background-image: url('https://images.unsplash.com/photo-1549488344-f6ad587e9145?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+        <div class="overlay"></div>
+        <div class="content">
+            <h2>Let's Make Memories Speak</h2>
+            <p>
+                Ready to create a truly special gift? Reach out to us directly through your preferred method below. We're excited to hear your story and help you craft a timeless memory, right here in Pondicherry.
+            </p>
+            <div class="contact-buttons">
+                <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="cta-button whatsapp-button">
+                    <span>Chat on WhatsApp</span>
+                    <span>&#x1F4AC;</span> 
+                </a>
+                <a href="https://www.instagram.com/YOURINSTAGRAMUSERNAME/" target="_blank" class="cta-button instagram-button">
+                    <span>Message on Instagram</span>
+                    <span>&#x1F4F8;</span> 
+                </a>
+            </div>
+             <p class="note">(Replace '91XXXXXXXXXX' with your actual WhatsApp number and 'YOURINSTAGRAMUSERNAME' with your Instagram handle)</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Sugaruquotes. All Rights Reserved. Crafted with love in Pondicherry.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu if open
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.add('hidden');
+                }
+            });
+        });
+
+        // Mobile menu toggle logic
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.add('active'); // Add 'active' class to show
+            mobileMenuOverlay.classList.remove('hidden'); // Show overlay
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active'); // Remove 'active' class to hide
+            mobileMenuOverlay.classList.add('hidden'); // Hide overlay
+        });
+
+        mobileMenuOverlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            mobileMenuOverlay.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
